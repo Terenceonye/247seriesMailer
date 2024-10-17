@@ -20,7 +20,7 @@
             }
 
             .terence-unique-container {
-                width: 95%;
+                width: 60%;
                 margin: auto;
             }
 
@@ -43,6 +43,8 @@
                 border-radius: 5px;
             }
 
+            
+
             #contact-form-unique-submitBtn {
                 padding: 10px 15px;
                 background-color: #00BF63;
@@ -52,7 +54,6 @@
                 cursor: pointer;
                 min-width: 20%;
                 margin: auto;
-
             }
 
             #contact-form-unique-submitBtn:hover {
@@ -84,7 +85,7 @@
             </div>
             <div class="contact-form-unique-group">
                 <label for="contact-form-unique-message">Enter Your Message</label>
-                <textarea id="contact-form-unique-message" placeholder="Your Message" required></textarea>
+                <textarea id="contact-form-unique-message" placeholder="Your Message" required rows="6" cols="50"></textarea>
             </div>
             <button id="contact-form-unique-submitBtn">Submit</button>
             <div id="contact-form-unique-status"></div>
@@ -99,7 +100,7 @@
     const subject = document.getElementById('contact-form-unique-subject').value;
     const message = document.getElementById('contact-form-unique-message').value;
 
-    const baseURL = 'http://localhost:3000'
+    const baseURL = 'https://two47seriesmailer.onrender.com'
     
     // Get the current website (referrer)
     const website = window.location.hostname;
@@ -116,7 +117,7 @@
         };
 
         // my sending
-        fetch('baseURL/api/contact', {
+        fetch(`${baseURL}/api/contact`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

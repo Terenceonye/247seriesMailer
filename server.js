@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+const cors = require('cors'); // Import CORS
 require('dotenv').config(); // For loading environment variables from .env file
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
+app.use(cors())
 app.use(bodyParser.json());
 
 // Route to handle contact form submission
@@ -19,7 +21,7 @@ app.post('/api/contact', (req, res) => {
 
     // Nodemailer configuration
     const transporter = nodemailer.createTransport({
-        host: 'netpro.international', // Use the correct SMTP server for your domain
+        host: process.env.EMAIL_HOST, // Use Environment variable for Email host
         port: 465, // Use 587 for SSL
         secure: true, // true for port 465, false for other ports
         auth: {
