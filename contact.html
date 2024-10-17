@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+            #contact-form-unique {
+                min-width: 400px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #ddd;
+                background-color: #f9f9f9;
+            }
+
+            .terence-unique-container {
+                width: 95%;
+                margin: auto;
+            }
+
+            .contact-form-unique-group {
+                margin-bottom: 15px;
+                
+            }
+
+            .contact-form-unique-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .contact-form-unique-group input, 
+            .contact-form-unique-group textarea {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            #contact-form-unique-submitBtn {
+                padding: 10px 15px;
+                background-color: #00BF63;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                min-width: 20%;
+                margin: auto;
+
+            }
+
+            #contact-form-unique-submitBtn:hover {
+                background-color: #000;
+            }
+
+            #contact-form-unique-status {
+                margin-top: 15px;
+                font-size: 14px;
+                color: red;
+            }
+
+    </style>
+</head>
+<body>
+    <div id="contact-form-unique">
+        <div class="terence-unique-container">
+            <div class="contact-form-unique-group">
+                <label for="contact-form-unique-name">Name</label>
+                <input type="text" id="contact-form-unique-name" placeholder="Your Name" required>
+            </div>
+            <div class="contact-form-unique-group">
+                <label for="contact-form-unique-email">Email</label>
+                <input type="email" id="contact-form-unique-email" placeholder="Your Email" required>
+            </div>
+            <div class="contact-form-unique-group">
+                <label for="contact-form-unique-name">Subject</label>
+                <input type="text" id="contact-form-unique-subject" placeholder="Your Subject" required>
+            </div>
+            <div class="contact-form-unique-group">
+                <label for="contact-form-unique-message">Enter Your Message</label>
+                <textarea id="contact-form-unique-message" placeholder="Your Message" required></textarea>
+            </div>
+            <button id="contact-form-unique-submitBtn">Submit</button>
+            <div id="contact-form-unique-status"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('contact-form-unique-submitBtn').addEventListener('click', function() {
+    // Collect form data
+    const name = document.getElementById('contact-form-unique-name').value;
+    const email = document.getElementById('contact-form-unique-email').value;
+    const subject = document.getElementById('contact-form-unique-subject').value;
+    const message = document.getElementById('contact-form-unique-message').value;
+
+    const baseURL = 'http://localhost:3000'
+    
+    // Get the current website (referrer)
+    const website = window.location.hostname;
+
+    // Check if all fields are filled
+    if (name && email && message && subject) {
+        // Prepare the payload
+        const payload = {
+            name,
+            email,
+            subject,
+            message,
+            website
+        };
+
+        // my sending
+        fetch('baseURL/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('contact-form-unique-status').textContent = "Message sent successfully!";
+                document.getElementById('contact-form-unique-status').style.color = "green";
+            } else {
+                document.getElementById('contact-form-unique-status').textContent = "Error sending message.";
+            }
+        })
+        .catch(error => {
+            document.getElementById('contact-form-unique-status').textContent = "There was an error sending your message.";
+        });
+    } else {
+        document.getElementById('contact-form-unique-status').textContent = "Please fill all fields.";
+    }
+});
+
+    </script>
+    
+    
+</body>
+</html>
