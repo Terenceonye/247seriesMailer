@@ -33,7 +33,7 @@ app.post('/api/contact', (req, res) => {
     // Email options with HTML formatting
     const mailOptions = {
         from: `"${name}" <${process.env.EMAIL_USER}>`, // Sender name and email
-        to: 'onyeweketerence@gmail.com', // The email address where you'll receive messages
+        to: 'support@netpro.africa', // The email address where you'll receive messages
         subject: `New Contact Form Submission from ${website}: ${subject}`,
         html: `
         <h2 style="color: #333; font-family: Arial, sans-serif;">New Message from ${name}</h2>

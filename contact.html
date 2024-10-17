@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
 
     <style>
         * {
@@ -11,64 +6,98 @@
             margin: 0;
             padding: 0;
         }
-            #contact-form-unique {
-                min-width: 400px;
-                margin: 0 auto;
-                padding: 20px;
-                border: 1px solid #ddd;
-                background-color: #f9f9f9;
-            }
 
+        #contact-form-unique {
+            min-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+
+        .terence-unique-container {
+            width: 60%;
+            margin: auto;
+        }
+
+        @media (max-width: 1200px) {
             .terence-unique-container {
-                width: 60%;
-                margin: auto;
+                width: 75%; 
             }
+        }
 
-            .contact-form-unique-group {
-                margin-bottom: 15px;
-                
+        /* Media query for smaller screens */
+        @media (max-width: 700px) {
+            .terence-unique-container {
+                width: 95%; 
             }
+        }
 
-            .contact-form-unique-group label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: bold;
+        
+
+        .contact-form-unique-group {
+            margin-bottom: 15px;
+        }
+
+        .contact-form-unique-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .contact-form-unique-group input, 
+        .contact-form-unique-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #contact-form-unique-submitBtn {
+            padding: 10px 15px;
+            background-color: #00BF63;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            min-width: 20%;
+            margin: auto;
+            position: relative; /* For positioning the spinner */
+        }
+
+        #contact-form-unique-submitBtn:hover {
+            background-color: #000;
+        }
+
+        #contact-form-unique-status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: red;
+        }
+
+        /* Custom Spinner Styles */
+        .custom-spinner {
+            display: none; /* Hidden by default */
+            width: 1em;
+            height: 1em;
+            border: 0.2em solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            border-top-color: #fff; /* White top color */
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle; /* Align with text */
+            margin-left: 5px; /* Space between text and spinner */
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
+        }
 
-            .contact-form-unique-group input, 
-            .contact-form-unique-group textarea {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
 
-            
-
-            #contact-form-unique-submitBtn {
-                padding: 10px 15px;
-                background-color: #00BF63;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                min-width: 20%;
-                margin: auto;
-            }
-
-            #contact-form-unique-submitBtn:hover {
-                background-color: #000;
-            }
-
-            #contact-form-unique-status {
-                margin-top: 15px;
-                font-size: 14px;
-                color: red;
-            }
 
     </style>
-</head>
-<body>
+
     <div id="contact-form-unique">
         <div class="terence-unique-container">
             <div class="contact-form-unique-group">
@@ -87,62 +116,77 @@
                 <label for="contact-form-unique-message">Enter Your Message</label>
                 <textarea id="contact-form-unique-message" placeholder="Your Message" required rows="6" cols="50"></textarea>
             </div>
-            <button id="contact-form-unique-submitBtn">Submit</button>
+            <button id="contact-form-unique-submitBtn">
+                Submit 
+                <span id="contact-form-unique-spinner" class="custom-spinner"></span>
+            </button>
             <div id="contact-form-unique-status"></div>
         </div>
     </div>
     
     <script>
         document.getElementById('contact-form-unique-submitBtn').addEventListener('click', function() {
-    // Collect form data
-    const name = document.getElementById('contact-form-unique-name').value;
-    const email = document.getElementById('contact-form-unique-email').value;
-    const subject = document.getElementById('contact-form-unique-subject').value;
-    const message = document.getElementById('contact-form-unique-message').value;
+            // Collect form data
+            const name = document.getElementById('contact-form-unique-name').value;
+            const email = document.getElementById('contact-form-unique-email').value;
+            const subject = document.getElementById('contact-form-unique-subject').value;
+            const message = document.getElementById('contact-form-unique-message').value;
 
-    const baseURL = 'https://two47seriesmailer.onrender.com'
-    
-    // Get the current website (referrer)
-    const website = window.location.hostname;
+            const baseURL = 'https://two47seriesmailer.onrender.com';
+            
+            // Get the current website (referrer)
+            const website = window.location.hostname;
 
-    // Check if all fields are filled
-    if (name && email && message && subject) {
-        // Prepare the payload
-        const payload = {
-            name,
-            email,
-            subject,
-            message,
-            website
-        };
+            // Check if all fields are filled
+            if (name && email && message && subject) {
+                // Show spinner
+                const spinner = document.getElementById('contact-form-unique-spinner');
+                spinner.style.display = 'inline-block'; // Show the spinner
+                document.getElementById('contact-form-unique-submitBtn').disabled = true; // Disable the button
 
-        // my sending
-        fetch(`${baseURL}/api/contact`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('contact-form-unique-status').textContent = "Message sent successfully!";
-                document.getElementById('contact-form-unique-status').style.color = "green";
+                // Prepare the payload
+                const payload = {
+                    name,
+                    email,
+                    subject,
+                    message,
+                    website
+                };
+
+                // Sending the request
+                fetch(`${baseURL}/api/contact`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    spinner.style.display = 'none'; // Hide the spinner
+                    document.getElementById('contact-form-unique-submitBtn').disabled = false; // Re-enable the button
+
+                    if (data.success) {
+                        document.getElementById('contact-form-unique-status').textContent = "Message sent successfully!";
+                        document.getElementById('contact-form-unique-status').style.color = "green";
+
+                        // Clear the input fields
+                        document.getElementById('contact-form-unique-name').value = '';
+                        document.getElementById('contact-form-unique-email').value = '';
+                        document.getElementById('contact-form-unique-subject').value = '';
+                        document.getElementById('contact-form-unique-message').value = '';
+                    } else {
+                        document.getElementById('contact-form-unique-status').textContent = "Error sending message.";
+                    }
+                })
+                .catch(error => {
+                    spinner.style.display = 'none'; // Hide the spinner
+                    document.getElementById('contact-form-unique-submitBtn').disabled = false; // Re-enable the button
+                    document.getElementById('contact-form-unique-status').textContent = "There was an error sending your message.";
+                });
             } else {
-                document.getElementById('contact-form-unique-status').textContent = "Error sending message.";
+                document.getElementById('contact-form-unique-status').textContent = "Please fill all fields.";
             }
-        })
-        .catch(error => {
-            document.getElementById('contact-form-unique-status').textContent = "There was an error sending your message.";
         });
-    } else {
-        document.getElementById('contact-form-unique-status').textContent = "Please fill all fields.";
-    }
-});
-
     </script>
-    
-    
-</body>
-</html>
+
